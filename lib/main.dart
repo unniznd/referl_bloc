@@ -13,7 +13,7 @@ import 'package:referl/home/cubit/your_offer_submit.dart';
 import 'package:referl/login/bloc/login_bloc.dart';
 import 'package:referl/login/bloc/login_state.dart';
 import 'package:referl/login/cubit/login_cubit.dart';
-// import 'package:referl/login/login.dart';
+import 'package:referl/login/login.dart';
 import 'package:referl/validator/cubit/validator_submit_cubit.dart';
 
 void main() {
@@ -95,8 +95,8 @@ class _ReferlAppState extends State<ReferlApp> {
             // if (state is AuthenticationAuthenticated) {
 
             // }
-            return const BottomNavBar();
-            // return const LoginScreen();
+            // return const BottomNavBar();
+            return const LoginScreen();
           },
         ),
       ),

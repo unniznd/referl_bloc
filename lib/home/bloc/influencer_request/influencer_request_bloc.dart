@@ -1,13 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:referl/home/api/home_api.dart';
 import 'package:referl/home/bloc/influencer_request/influencer_request_event.dart';
 import 'package:referl/home/bloc/influencer_request/influencer_request_state.dart';
 import 'package:referl/home/model/influencer_request_model.dart';
-import 'package:referl/home/repo/home_repo.dart';
 
 class InfluencerRequestBloc
     extends Bloc<InfluencerRequestEvent, InfluencerRequestState> {
   InfluencerRequestBloc() : super(InfluencerRequestInitial()) {
-    final apiRepo = HomeRepo();
+    final apiRepo = HomeApiProvider();
 
     on<FetchInfluencerRequest>(
       (event, emit) async {

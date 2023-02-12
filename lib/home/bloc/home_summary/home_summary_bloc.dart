@@ -1,12 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:referl/home/api/home_api.dart';
 import 'package:referl/home/bloc/home_summary/home_summary_event.dart';
 import 'package:referl/home/bloc/home_summary/home_summary_state.dart';
-import 'package:referl/home/model/home_summary_model.dart';
-import 'package:referl/home/repo/home_repo.dart';
 
 class HomeSummaryBloc extends Bloc<HomeSummaryEvent, HomeSummaryState> {
   HomeSummaryBloc() : super(HomeSummaryInitial()) {
-    final apiRepo = HomeRepo();
+    final apiRepo = HomeApiProvider();
 
     on<FetchMonthlySummary>(
       (event, emit) async {

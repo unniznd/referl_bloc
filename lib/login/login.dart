@@ -66,10 +66,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: TextFormField(
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.emailAddress,
                       validator: (value) {
-                        if (value!.length < 6) {
-                          return "Username is too short";
+                        if (!RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value.toString())) {
+                          return "Enter valid email id";
                         }
                         return null;
                       },
@@ -80,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         hintStyle: TextStyle(
                           fontSize: 14,
                         ),
-                        hintText: "Username",
+                        hintText: "Email",
                         errorText: null,
                       ),
                     ),
