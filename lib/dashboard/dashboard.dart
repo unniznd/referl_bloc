@@ -49,7 +49,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   content: Text("Error: Logged Out"),
                 ),
               );
-              loginBloc.add(LoggedOut());
+              loginBloc.add(LogoutUser());
             }
           },
           builder: (context, dashBoardSummaryState) {

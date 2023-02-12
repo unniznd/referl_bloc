@@ -86,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   content: Text("Error: Logged Out"),
                 ),
               );
-              loginBloc.add(LoggedOut());
+              loginBloc.add(LogoutUser());
             }
           },
           builder: (context, homeSummaryState) {

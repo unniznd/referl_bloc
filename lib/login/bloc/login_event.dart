@@ -1,8 +1,14 @@
 abstract class AuthenticationEvent {}
 
-class LoggedIn extends AuthenticationEvent {
-  final String token;
-  LoggedIn({required this.token});
+class LoginUser extends AuthenticationEvent {
+  final String username;
+  final String password;
+  LoginUser({
+    required this.username,
+    required this.password,
+  });
 }
 
-class LoggedOut extends AuthenticationEvent {}
+class LogoutUser extends AuthenticationEvent {}
+
+class IsAuthenticated extends AuthenticationEvent {}

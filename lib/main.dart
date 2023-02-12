@@ -11,12 +11,16 @@ import 'package:referl/bottom_navbar/bloc/network_bloc.dart';
 import 'package:referl/home/cubit/your_offer_edit_cubit.dart';
 import 'package:referl/home/cubit/your_offer_submit.dart';
 import 'package:referl/login/bloc/login_bloc.dart';
+import 'package:referl/login/bloc/login_event.dart';
 import 'package:referl/login/bloc/login_state.dart';
 import 'package:referl/login/cubit/login_cubit.dart';
 import 'package:referl/login/login.dart';
 import 'package:referl/validator/cubit/validator_submit_cubit.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-void main() {
+const storage = FlutterSecureStorage();
+
+void main() async {
   runApp(const ReferlApp());
 }
 
@@ -28,6 +32,12 @@ class ReferlApp extends StatefulWidget {
 }
 
 class _ReferlAppState extends State<ReferlApp> {
+  @override
+  void initState() {
+    super.initState();
+    loginBloc.add(IsAuthenticated());
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -92,10 +102,9 @@ class _ReferlAppState extends State<ReferlApp> {
         child: BlocBuilder<LoginBloc, AuthenticationState>(
           bloc: loginBloc,
           builder: (context, state) {
-            // if (state is AuthenticationAuthenticated) {
-
-            // }
-            // return const BottomNavBar();
+            if (state is AuthenticationAuthenticated) {
+              return const BottomNavBar();
+            }
             return const LoginScreen();
           },
         ),

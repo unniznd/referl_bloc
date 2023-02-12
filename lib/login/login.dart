@@ -14,6 +14,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   final LoginCubit loginCubit = LoginCubit();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -66,6 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: TextFormField(
+                      controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if (!RegExp(
@@ -94,9 +98,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: double.infinity,
                     child: TextFormField(
                       keyboardType: TextInputType.text,
+                      controller: passwordController,
                       obscureText: true,
                       validator: (value) {
-                        if (value!.length < 6) {
+                        if (value!.length < 2) {
                           return "Password is too short";
                         }
                         return null;
@@ -130,9 +135,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () async {
                               if (formKey.currentState!.validate()) {
                                 loginCubit.setLoading(true);
-                                await Future.delayed(
-                                    const Duration(seconds: 2));
-                                loginBloc.add(LoggedIn(token: "token"));
+                                loginBloc.add(LoginUser(
+                                  username: emailController.text,
+                                  password: passwordController.text,
+                                ));
                                 loginCubit.setLoading(false);
                               }
                             },

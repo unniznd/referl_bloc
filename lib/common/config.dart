@@ -1,9 +1,12 @@
-// const String baseURL = "https://referlbackend-production.up.railway.app";
-const String baseURL = 'https://unnikuznd.pythonanywhere.com';
+// const String baseURL = 'https://unnikuznd.pythonanywhere.com';
+import 'package:referl/main.dart';
+
+const String baseURL = "http://10.0.2.2:8000";
 
 getToken() async {
-  String token = "4b0b4c5ae5afa31f20f02451b31958e68b99de3d";
-  if (token != '') {
+  final token = await storage.read(key: "token");
+
+  if (token != null) {
     return {
       "status": true,
       "token": token,

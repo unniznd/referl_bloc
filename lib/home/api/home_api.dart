@@ -7,6 +7,7 @@ import 'package:referl/common/config.dart';
 class HomeApiProvider {
   Future<HomeSummaryModel> fetchMonthlySummary() async {
     var resToken = await getToken();
+
     if (resToken["status"]) {
       String token = resToken["token"].toString();
 
