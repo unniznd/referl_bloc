@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:referl/bottom_navbar/cubit/navigation_cubit.dart';
 import 'package:referl/dashboard/dashboard.dart';
 import 'package:referl/home/home.dart';
@@ -9,6 +10,9 @@ import 'package:referl/tip/tip.dart';
 import 'package:referl/bottom_navbar/bloc/network_bloc.dart';
 import 'package:referl/bottom_navbar/bloc/network_state.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:referl/wallet/bloc/balance/balance_bloc.dart';
+import 'package:referl/wallet/bloc/balance/balance_event.dart';
+import 'package:referl/wallet/bloc/payment/payment_bloc.dart';
 import 'package:referl/wallet/wallet.dart';
 import 'package:referl/notification/notification.dart';
 
@@ -19,7 +23,25 @@ class BottomNavBar extends StatefulWidget {
   State<BottomNavBar> createState() => _BottomNavBarState();
 }
 
-class _BottomNavBarState extends State<BottomNavBar> {
+class _BottomNavBarState extends State<BottomNavBar>
+    with TickerProviderStateMixin {
+  final WalletBalanceBloc walletBalanceBloc = WalletBalanceBloc();
+
+  final PaymentBloc paymentBloc = PaymentBloc();
+  final amountController = TextEditingController();
+  final Razorpay _razorpay = Razorpay();
+
+  late AnimationController animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    )..repeat();
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -48,8 +70,17 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   color: Colors.black,
                   size: height * 0.0375,
                 ),
-                onPressed: () {
-                  showWalletModel(context: context, height: height);
+                onPressed: () async {
+                  walletBalanceBloc.add(FetchWalletBalance());
+                  showWalletModel(
+                    context: context,
+                    height: height,
+                    walletBalanceBloc: walletBalanceBloc,
+                    paymentBloc: paymentBloc,
+                    amountController: amountController,
+                    razorpay: _razorpay,
+                    animationController: animationController,
+                  );
                 },
               ),
               const SizedBox(

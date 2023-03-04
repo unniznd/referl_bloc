@@ -31,6 +31,7 @@ class LoginBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
       },
     );
     on<IsAuthenticated>((event, emit) async {
+      emit(AuthenticationInitial());
       final token = await storage.read(key: "token");
 
       if (token == null) {

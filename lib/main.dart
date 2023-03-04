@@ -17,6 +17,8 @@ import 'package:referl/login/cubit/login_cubit.dart';
 import 'package:referl/login/login.dart';
 import 'package:referl/validator/cubit/validator_submit_cubit.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:referl/wallet/bloc/balance/balance_bloc.dart';
+import 'package:referl/wallet/bloc/payment/payment_bloc.dart';
 
 const storage = FlutterSecureStorage();
 
@@ -98,6 +100,12 @@ class _ReferlAppState extends State<ReferlApp> {
           BlocProvider(
             create: (_) => InfluencerListBloc(),
           ),
+          BlocProvider(
+            create: (_) => WalletBalanceBloc(),
+          ),
+          BlocProvider(
+            create: (_) => PaymentBloc(),
+          ),
         ],
         child: BlocBuilder<LoginBloc, AuthenticationState>(
           bloc: loginBloc,
@@ -105,7 +113,15 @@ class _ReferlAppState extends State<ReferlApp> {
             if (state is AuthenticationAuthenticated) {
               return const BottomNavBar();
             }
+            if (state is AuthenticationInitial) {
+              return const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
             return const LoginScreen();
+            // return const PaymentGateway();
           },
         ),
       ),
