@@ -88,8 +88,6 @@ class WalletApiProvider {
             "razorpay_signature": signature
           },
         ).timeout(const Duration(seconds: 10));
-
-        print(res.body);
       } catch (e) {
         return {
           "status": "Failure",

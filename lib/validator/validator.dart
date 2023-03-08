@@ -392,7 +392,6 @@ void showValidatorModal({
                                       : () {
                                           if (formKey.currentState!
                                               .validate()) {
-                                            print(dropdown);
                                             validatorBloc.add(
                                               AddReferral(
                                                 dropdown.toString(),

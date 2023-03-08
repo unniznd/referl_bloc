@@ -19,6 +19,24 @@ void showWalletModel({
   required Razorpay razorpay,
   required AnimationController animationController,
 }) {
+  razorpay.on(
+    Razorpay.EVENT_PAYMENT_SUCCESS,
+    (PaymentSuccessResponse response) {
+      walletBalanceBloc.add(
+        SuccessfulPayment(
+          response.paymentId.toString(),
+          response.orderId.toString(),
+          response.signature.toString(),
+        ),
+      );
+      razorpay.clear();
+    },
+  );
+
+  razorpay.on(
+    Razorpay.EVENT_PAYMENT_ERROR,
+    (PaymentFailureResponse response) {},
+  );
   showModalBottomSheet<void>(
     context: context,
     shape: const RoundedRectangleBorder(
@@ -30,27 +48,6 @@ void showWalletModel({
     isScrollControlled: true,
     backgroundColor: const Color.fromRGBO(231, 238, 250, 1),
     builder: (BuildContext context) {
-      razorpay.on(
-        Razorpay.EVENT_PAYMENT_SUCCESS,
-        (PaymentSuccessResponse response) {
-          walletBalanceBloc.add(
-            SuccessfulPayment(
-              response.paymentId.toString(),
-              response.orderId.toString(),
-              response.signature.toString(),
-            ),
-          );
-          razorpay.clear();
-        },
-      );
-
-      razorpay.on(
-        Razorpay.EVENT_PAYMENT_ERROR,
-        (PaymentFailureResponse response) {
-          print("here");
-        },
-      );
-
       return BlocBuilder<WalletBalanceBloc, WalletBalanceState>(
         bloc: walletBalanceBloc,
         builder: (context, state) {
