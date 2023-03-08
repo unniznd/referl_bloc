@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:referl/bottom_navbar/bloc/navigation/navigation_bloc.dart';
 import 'package:referl/bottom_navbar/bottom_navbar.dart';
-import 'package:referl/bottom_navbar/cubit/navigation_cubit.dart';
 import 'package:referl/dashboard/bloc/dashboard_summary/dashboard_summary_bloc.dart';
 import 'package:referl/dashboard/bloc/influencer_list/influencer_list_bloc.dart';
 import 'package:referl/home/bloc/home_summary/home_summary_bloc.dart';
 import 'package:referl/home/bloc/influencer_request/influencer_request_bloc.dart';
 import 'package:referl/home/cubit/tab_navigation_cubit.dart';
-import 'package:referl/bottom_navbar/bloc/network_bloc.dart';
+import 'package:referl/bottom_navbar/bloc/network/network_bloc.dart';
 import 'package:referl/home/cubit/your_offer_edit_cubit.dart';
 import 'package:referl/home/cubit/your_offer_submit.dart';
 import 'package:referl/login/bloc/login_bloc.dart';
 import 'package:referl/login/bloc/login_event.dart';
 import 'package:referl/login/bloc/login_state.dart';
-import 'package:referl/login/cubit/login_cubit.dart';
 import 'package:referl/login/login.dart';
-import 'package:referl/validator/cubit/validator_submit_cubit.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:referl/wallet/bloc/balance/balance_bloc.dart';
 import 'package:referl/wallet/bloc/payment/payment_bloc.dart';
@@ -65,19 +63,13 @@ class _ReferlAppState extends State<ReferlApp> {
       home: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (_) => NavigationCubit(),
-          ),
-          BlocProvider(
             create: (_) => TabNavigationCubit(),
           ),
           BlocProvider(
+            create: (_) => NavigationBloc(),
+          ),
+          BlocProvider(
             create: (_) => YourOfferEditCubit(),
-          ),
-          BlocProvider(
-            create: (_) => ValidatorSubmitCubit(),
-          ),
-          BlocProvider(
-            create: (_) => LoginCubit(),
           ),
           BlocProvider(
             create: (_) => YourOfferSubmitCubit(),
@@ -121,7 +113,6 @@ class _ReferlAppState extends State<ReferlApp> {
               );
             }
             return const LoginScreen();
-            // return const PaymentGateway();
           },
         ),
       ),

@@ -2,19 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:referl/bottom_navbar/cubit/navigation_cubit.dart';
 import 'package:referl/dashboard/dashboard.dart';
 import 'package:referl/home/home.dart';
 import 'package:referl/profile/profile.dart';
 import 'package:referl/tip/tip.dart';
-import 'package:referl/bottom_navbar/bloc/network_bloc.dart';
-import 'package:referl/bottom_navbar/bloc/network_state.dart';
+import 'package:referl/bottom_navbar/bloc/network/network_bloc.dart';
+import 'package:referl/bottom_navbar/bloc/network/network_state.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:referl/wallet/bloc/balance/balance_bloc.dart';
 import 'package:referl/wallet/bloc/balance/balance_event.dart';
 import 'package:referl/wallet/bloc/payment/payment_bloc.dart';
 import 'package:referl/wallet/wallet.dart';
 import 'package:referl/notification/notification.dart';
+
+import 'bloc/navigation/navigation_bloc.dart';
+import 'bloc/navigation/navigation_event.dart';
+import 'bloc/navigation/navigation_state.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
@@ -30,6 +33,7 @@ class _BottomNavBarState extends State<BottomNavBar>
   final PaymentBloc paymentBloc = PaymentBloc();
   final amountController = TextEditingController();
   final Razorpay _razorpay = Razorpay();
+  final NavigationBloc navigationBloc = NavigationBloc();
 
   late AnimationController animationController;
 
@@ -42,6 +46,8 @@ class _BottomNavBarState extends State<BottomNavBar>
     )..repeat();
   }
 
+  int currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -52,8 +58,12 @@ class _BottomNavBarState extends State<BottomNavBar>
       ProfileScreen(),
     ];
 
-    return Builder(
-      builder: (context) {
+    return BlocBuilder<NavigationBloc, NavigationState>(
+      bloc: navigationBloc,
+      builder: (context, state) {
+        if (state is NavigationScreen) {
+          currentIndex = state.index;
+        }
         return Scaffold(
           appBar: AppBar(
             elevation: 0,
@@ -162,86 +172,78 @@ class _BottomNavBarState extends State<BottomNavBar>
                 ).show(context);
               }
             },
-            child: BlocBuilder<NavigationCubit, int>(
-              builder: ((context, tabIndex) {
-                return screens[tabIndex];
-              }),
-            ),
+            child: screens[currentIndex],
           ),
-          bottomNavigationBar: BlocBuilder<NavigationCubit, int>(
-            builder: (context, state) {
-              return Container(
-                height: height * 0.0872,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    topLeft: Radius.circular(20),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black54,
-                      spreadRadius: 0,
-                      blurRadius: 5,
-                    ),
-                  ],
+          bottomNavigationBar: Container(
+            height: height * 0.0872,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20),
+                topLeft: Radius.circular(20),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black54,
+                  spreadRadius: 0,
+                  blurRadius: 5,
                 ),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20.0),
-                    topRight: Radius.circular(20.0),
-                  ),
-                  child: BottomNavigationBar(
-                    selectedItemColor: Colors.green,
-                    backgroundColor: Colors.white,
-                    elevation: 0,
-                    unselectedItemColor: Colors.black87,
-                    selectedLabelStyle: TextStyle(
-                      fontSize: height * 0.014,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    unselectedLabelStyle: TextStyle(
-                      fontSize: height * 0.0125,
-                      fontWeight: FontWeight.w300,
-                    ),
-                    type: BottomNavigationBarType.fixed,
-                    items: <BottomNavigationBarItem>[
-                      BottomNavigationBarItem(
-                        icon: HeroIcon(
-                          HeroIcons.home,
-                          size: height * 0.030,
-                        ),
-                        label: 'Home',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: HeroIcon(
-                          HeroIcons.bookmarkSquare,
-                          size: height * 0.030,
-                        ),
-                        label: 'Tips',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: HeroIcon(
-                          HeroIcons.documentText,
-                          size: height * 0.030,
-                        ),
-                        label: 'Dashboard',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: HeroIcon(
-                          HeroIcons.user,
-                          size: height * 0.030,
-                        ),
-                        label: 'Profile',
-                      ),
-                    ],
-                    currentIndex: state,
-                    onTap: (index) {
-                      BlocProvider.of<NavigationCubit>(context).setIndex(index);
-                    },
-                  ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0),
+              ),
+              child: BottomNavigationBar(
+                selectedItemColor: Colors.green,
+                backgroundColor: Colors.white,
+                elevation: 0,
+                unselectedItemColor: Colors.black87,
+                selectedLabelStyle: TextStyle(
+                  fontSize: height * 0.014,
+                  fontWeight: FontWeight.bold,
                 ),
-              );
-            },
+                unselectedLabelStyle: TextStyle(
+                  fontSize: height * 0.0125,
+                  fontWeight: FontWeight.w300,
+                ),
+                type: BottomNavigationBarType.fixed,
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: HeroIcon(
+                      HeroIcons.home,
+                      size: height * 0.030,
+                    ),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: HeroIcon(
+                      HeroIcons.bookmarkSquare,
+                      size: height * 0.030,
+                    ),
+                    label: 'Tips',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: HeroIcon(
+                      HeroIcons.documentText,
+                      size: height * 0.030,
+                    ),
+                    label: 'Dashboard',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: HeroIcon(
+                      HeroIcons.user,
+                      size: height * 0.030,
+                    ),
+                    label: 'Profile',
+                  ),
+                ],
+                currentIndex: currentIndex,
+                onTap: (index) {
+                  navigationBloc.add(NavigateToScreen(index));
+                },
+              ),
+            ),
           ),
         );
       },

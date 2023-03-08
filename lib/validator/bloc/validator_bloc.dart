@@ -8,18 +8,23 @@ class ValidatorBloc extends Bloc<ValidatorEvent, ValidatorState> {
     final ValidatorApiProvider validatorApiProvider = ValidatorApiProvider();
     on<AddReferral>(
       (event, emit) async {
-        final res = await validatorApiProvider.addReferal(
-          event.platform,
-          event.refCode,
-          event.phone,
-          event.amount,
-        );
-        if (res == "OK") {
-          emit(ValidatorSuccessful());
-        } else if (res == "LOGGED_OUT") {
-          emit(ValidatorTokenExpired());
-        } else {
-          emit(ValidatorError(res));
+        emit(ValidatorLoading());
+        try {
+          final res = await validatorApiProvider.addReferal(
+            event.platform,
+            event.refCode,
+            event.phone,
+            event.amount,
+          );
+          if (res == "OK") {
+            emit(ValidatorSuccessful());
+          } else if (res == "LOGGED_OUT") {
+            emit(ValidatorTokenExpired());
+          } else {
+            emit(ValidatorError(res));
+          }
+        } catch (e) {
+          emit(ValidatorError("Unexcepted error occured"));
         }
       },
     );

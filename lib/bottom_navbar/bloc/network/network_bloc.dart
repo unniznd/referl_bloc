@@ -1,6 +1,6 @@
-import 'package:referl/bottom_navbar/bloc/network_helper.dart';
-import 'package:referl/bottom_navbar/bloc/network_event.dart';
-import 'package:referl/bottom_navbar/bloc/network_state.dart';
+import 'package:referl/bottom_navbar/bloc/network/network_helper.dart';
+import 'package:referl/bottom_navbar/bloc/network/network_event.dart';
+import 'package:referl/bottom_navbar/bloc/network/network_state.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 

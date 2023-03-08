@@ -23,6 +23,7 @@ class ValidatorApiProvider {
       String token = resToken["token"].toString();
       dynamic res;
       try {
+        print(platform);
         res = await http.post(
           Uri.parse("$baseURL/shopowner/influencer/referal/"),
           headers: {
@@ -35,6 +36,7 @@ class ValidatorApiProvider {
             "bill_amount": amount,
           },
         ).timeout(const Duration(seconds: 10));
+        print(res.body);
       } catch (e) {
         return "Error Occured";
       }

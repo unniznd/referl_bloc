@@ -1,6 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:referl/bottom_navbar/bloc/network_event.dart';
-import 'package:referl/bottom_navbar/bloc/network_bloc.dart';
+import 'package:referl/bottom_navbar/bloc/network/network_event.dart';
+import 'package:referl/bottom_navbar/bloc/network/network_bloc.dart';
 
 class NetworkHelper {
   static void observeNetwork() {

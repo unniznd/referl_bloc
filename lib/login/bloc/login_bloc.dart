@@ -14,7 +14,6 @@ class LoginBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
       try {
         final res =
             await apiProvider.authenticate(event.username, event.password);
-
         if (res.errorMsg != null) {
           emit(AuthenticationFailed(res.errorMsg));
         } else {
