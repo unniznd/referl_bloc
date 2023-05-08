@@ -59,6 +59,9 @@ class InfluencersRequestTile extends StatelessWidget {
               backgroundImage: NetworkImage(influencerRequest.profilePic),
             ),
           ),
+          const SizedBox(
+            width: 10,
+          ),
           Expanded(
             flex: 0,
             child: Container(

@@ -6,6 +6,7 @@ import 'package:referl/dashboard/bloc/dashboard_summary/dashboard_summary_state.
 import 'package:referl/dashboard/bloc/influencer_list/influencer_list_bloc.dart';
 import 'package:referl/dashboard/bloc/influencer_list/influencer_list_event.dart';
 import 'package:referl/dashboard/bloc/influencer_list/influencer_list_state.dart';
+import 'package:referl/dashboard/widgets/influencer_list_shimmer.dart';
 import 'package:referl/dashboard/widgets/influencers_list_tile.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -201,7 +202,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         if (state is InfluencerListError) {
                           return Text(state.error.toString());
                         }
-                        return const CircularProgressIndicator();
+                        return const InfluencerListShimmer();
                       },
                     ),
                   ],
@@ -216,8 +217,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 },
               );
             }
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const CircularProgressIndicator(
+                  color: Color.fromRGBO(12, 164, 109, 1),
+                ),
+                Container(
+                  height: 20,
+                ),
+                const Text(
+                  "Preparing Dashboard...",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ],
             );
           },
         ),

@@ -10,6 +10,7 @@ class InfluencerListBloc
     on<FetchActiveInfluencer>(
       (event, emit) async {
         emit(InfluencerListLoading());
+        await Future.delayed(const Duration(seconds: 2));
         try {
           final res = await apiRepo.fetchActiveInfluencer();
 

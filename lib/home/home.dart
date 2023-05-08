@@ -11,6 +11,7 @@ import 'package:referl/home/bloc/influencer_request/influencer_request_state.dar
 import 'package:referl/home/cubit/tab_navigation_cubit.dart';
 import 'package:referl/home/cubit/your_offer_submit.dart';
 import 'package:referl/home/model/influencer_request_model.dart';
+import 'package:referl/home/widgets/influencer_request_shimmer.dart';
 import 'package:referl/home/widgets/validator_button.dart';
 import 'package:referl/home/widgets/your_offer_edit_view.dart';
 import 'package:referl/home/widgets/your_offer_view.dart';
@@ -220,7 +221,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 30,
                       ),
                       BlocBuilder<TabNavigationCubit, int>(
                         bloc: tabNavigationCubit,
@@ -311,8 +312,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       if (state.influencerRequestModel.requests!
                                           .cast<InfluencerRequest>()
                                           .isEmpty) {
-                                        return const Text(
-                                          "No Influencer Requests",
+                                        return Column(
+                                          children: const [
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Text(
+                                              "No Influencer Requests",
+                                            ),
+                                          ],
                                         );
                                       }
                                       return ListView.separated(
@@ -386,7 +394,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         state.error.toString(),
                                       );
                                     }
-                                    return const CircularProgressIndicator();
+                                    return const InfluencerRequestShimmer();
                                   },
                                 ),
                               if (tabIndex == 1)
@@ -486,8 +494,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 },
               );
             }
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const CircularProgressIndicator(
+                  color: Color.fromRGBO(12, 164, 109, 1),
+                ),
+                Container(
+                  height: 20,
+                ),
+                const Text(
+                  "Preparing Home...",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ],
             );
           },
         ),

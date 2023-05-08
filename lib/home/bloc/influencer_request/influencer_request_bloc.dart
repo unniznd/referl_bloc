@@ -12,7 +12,7 @@ class InfluencerRequestBloc
     on<FetchInfluencerRequest>(
       (event, emit) async {
         emit(InfluencerRequestLoading());
-
+        await Future.delayed(const Duration(seconds: 3));
         try {
           final res = await apiRepo.fetchInfluencerRequest();
 
