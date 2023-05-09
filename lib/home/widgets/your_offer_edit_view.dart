@@ -48,12 +48,18 @@ class YourOfferEditView extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    GestureDetector(
-                      onTap: onClose,
-                      child: const HeroIcon(
-                        HeroIcons.xMark,
-                        color: Colors.black,
-                        size: 25,
+                    Container(
+                      padding: const EdgeInsets.all(1),
+                      decoration: const BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      child: GestureDetector(
+                        onTap: onClose,
+                        child: const HeroIcon(
+                          HeroIcons.xMark,
+                          color: Colors.black,
+                          size: 25,
+                        ),
                       ),
                     ),
                   ],

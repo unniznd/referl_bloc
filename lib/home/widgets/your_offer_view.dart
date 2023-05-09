@@ -59,10 +59,21 @@ class YourOfferView extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: onEdit,
-                          child: HeroIcon(
-                            HeroIcons.pencil,
-                            color: Colors.black,
-                            size: height * 0.035,
+                          child: Container(
+                            height: height * 0.04,
+                            width: height * 0.04,
+                            padding: const EdgeInsets.all(1),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.green,
+                                ),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(5))),
+                            child: HeroIcon(
+                              HeroIcons.pencil,
+                              color: Colors.black,
+                              size: height * 0.03,
+                            ),
                           ),
                         ),
                         const SizedBox(
