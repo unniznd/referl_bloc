@@ -446,6 +446,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 .validate()) {
                                               yourOfferSubmitCubit
                                                   .setSubmiting(true);
+
                                               homeSummaryBloc.add(
                                                 UpdateYourOffer(
                                                   int.parse(
@@ -456,6 +457,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   ),
                                                 ),
                                               );
+                                              await Future.delayed(
+                                                  const Duration(seconds: 1));
                                               yourOfferSubmitCubit
                                                   .setSubmiting(false);
                                               yourOfferEditCubit
